@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: "Initial cleaned version of raw transactions"
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+
+      - name: timestamp
+        tests:
+          - not_null
+
+      - name: amount
+        tests:
+          - not_null
+          - positive_values
+
+      - name: sender_account
+        tests:
+          - not_null
+
+      - name: receiver_account
+        tests:
+          - not_null
+
+  - name: stg_transactions_clean
+    description: "Fully standardized transaction dataset"
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_transactions')
+              field: transaction_id
+
+      - name: amount
+        tests:
+          - not_null
+          - positive_values
+
+      - name: merchant_category
+        tests:
+          - not_null
+          - accepted_values:
+              values: [
+                "entertainment",
+                "grocery",
+                "online",
+                "other",
+                "restaurant",
+                "retail",
+                "travel",
+                "utilities"
+              ]
+
+      - name: transaction_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["transfer", "payment", "withdrawal", "deposit"]
+
+      - name: ip_address
+        tests:
+          - valid_ip

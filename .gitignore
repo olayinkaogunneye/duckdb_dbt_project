@@ -1,0 +1,17 @@
+# Ignore the local DuckDB database files
+*.duckdb
+*.duckdb.wal
+
+# Ignore all raw data files and landing folders
+data_raw/
+**/data_raw/
+
+# Ignore dbt log and cache files from the inner project
+**/logs/
+**/target/
+**/dbt_packages/
+
+# Ignore Power BI files and their tracking folders
+*.pbix
+powerbi/
+**/powerbi/

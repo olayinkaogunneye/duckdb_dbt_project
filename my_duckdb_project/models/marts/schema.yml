@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: fraud_scoring
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+
+      - name: fraud_score
+        tests:
+          - positive_values
+
+      - name: fraud_flag
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: fraud_score_explainability
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+
+      - name: dominant_risk_driver
+        tests:
+          - accepted_values:
+              values: ["velocity", "geo", "device", "behavior", "transaction"]
+
+  - name: ml_feature_table
+    columns:
+      - name: is_fraud
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+      - name: amount
+        tests:
+          - positive_values
+
+      - name: txn_count_1h
+        tests:
+          - positive_values
+
+      - name: burst_flag
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: customer_risk_profile
+    columns:
+      - name: sender_account
+        tests:
+          - not_null
+
+      - name: customer_risk_tier
+        tests:
+          - accepted_values:
+              values: ["low", "medium", "high"]
+
+  - name: device_risk_profile
+    columns:
+      - name: device_hash
+        tests:
+          - not_null
+
+      - name: device_risk_tier
+        tests:
+          - accepted_values:
+              values: ["low", "medium", "high"]
+
+  - name: daily_fraud_summary
+    columns:
+      - name: txn_date
+        tests:
+          - not_null
+
+  - name: fraud_dashboard_transactions
+    columns:
+      - name: txn_date
+        tests:
+          - not_null
+
+  - name: fraud_dashboard_risk_signals
+    columns:
+      - name: txn_date
+        tests:
+          - not_null
+
+  - name: fraud_dashboard_trends
+    columns:
+      - name: week_start
+        tests:
+          - not_null

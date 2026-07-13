@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: transaction_features
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_transactions_clean')
+              field: transaction_id
+
+      - name: amount_bucket
+        tests:
+          - accepted_values:
+              values: ["very_small", "small", "medium", "large", "very_large"]
+
+  - name: velocity_features
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+
+      - name: true_time_since_last_txn
+        tests:
+          - positive_values
+
+      - name: txn_count_1h
+        tests:
+          - positive_values
+
+      - name: burst_flag
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: geo_risk_features
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+
+      - name: distance_km
+        tests:
+          - positive_values
+
+      - name: impossible_travel_flag
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+      - name: curr_lat
+        tests:
+          - valid_lat_lon
+
+      - name: curr_lon
+        tests:
+          - valid_lat_lon
+
+  - name: device_risk_features
+    columns:
+      - name: device_hash
+        tests:
+          - not_null
+
+      - name: accounts_per_device
+        tests:
+          - positive_values
+
+      - name: shared_device_flag
+        tests:
+          - accepted_values:
+              values: [0, 1]
+
+  - name: customer_behavior
+    columns:
+      - name: sender_account
+        tests:
+          - not_null
+
+      - name: recency_seconds
+        tests:
+          - positive_values
+
+      - name: sudden_spend_change
+        tests:
+          - accepted_values:
+              values: [0, 1]

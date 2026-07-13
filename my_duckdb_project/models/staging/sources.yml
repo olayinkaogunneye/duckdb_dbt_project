@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: fraud_raw
+    schema: fraud_raw # dbt will automatically handle creating this schema
+    tables:
+      - name: transactions_5m
+        meta:
+          external_location: "../data_raw/transactions_5m.csv"
+          # Optional: define your csv parsing details cleanly here
+          options:
+            header: true
+            delim: ','
