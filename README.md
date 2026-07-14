@@ -102,12 +102,40 @@ Final consumption layer:
 
 ---
 
+# ☁️ MotherDuck Integration
+
+The warehouse originally used a local DuckDB file (`warehouse.duckdb`).  
+It has now been migrated to **MotherDuck**, enabling cloud‑hosted storage and freeing local disk space.
+
+### **Migration Summary**
+1. Retrieve MotherDuck service token  
+2. Open local DuckDB file  
+3. Authenticate with MotherDuck  
+4. Upload local warehouse using:
+
+```sql
+CREATE DATABASE md:my_cloud_warehouse FROM current_database();
+
+```
+**Updated dbt Profile** 
+
+```yaml
+your_project_profile_name:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: 'md:my_cloud_warehouse'
+      token: 'YOUR_TOKEN_HERE'
+
+```
 # 🧹 Data Cleaning & Pre‑Processing
 
-All cleaning was performed in:
+All data cleaning and preprocessing is implemented in dbt, not in notebooks.
 
-notebooks/fraud_eda.ipynb
+Cleaning models:
 
+- `stg_transactions_raw`
 
 ### Cleaning tasks included:
 - fixing timestamps  
@@ -120,8 +148,7 @@ notebooks/fraud_eda.ipynb
 - deduplicating records  
 
 The cleaned dataset is materialized as:
-
-- `stg_transactions_raw`  
+  
 - `stg_transactions_clean`
 
 These models form the foundation for feature engineering.

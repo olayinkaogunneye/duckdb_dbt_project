@@ -2,7 +2,7 @@
 
 This project implements a fully engineered **Fraud Analytics Warehouse** designed to support real‑time fraud detection, behavioral analysis, machine‑learning feature generation, and analyst‑friendly investigation workflows.
 
-Built using **dbt**, **DuckDB**, and a structured multi‑layer architecture, the warehouse transforms raw transactional data into high‑quality analytical features and business‑ready marts. It provides a clean, reliable, and extensible foundation for fraud analysts, data scientists, and risk engineers.
+Built using **dbt**, **DuckDB**, **MotherDuck** and a structured multi‑layer architecture, the warehouse transforms raw transactional data into high‑quality analytical features and business‑ready marts. It provides a clean, reliable, and extensible foundation for fraud analysts, data scientists, and risk engineers.
 
 ---
 

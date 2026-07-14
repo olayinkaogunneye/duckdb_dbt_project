@@ -1,6 +1,6 @@
 # 🏗️ Fraud Analytics Warehouse — Architecture Documentation
 
-This document provides a complete architectural overview of the **Fraud Analytics Warehouse**.  
+This document provides a complete architectural overview of the **Fraud Analytics Warehouse** now running on **motherduck**.  
 The architecture follows a layered dbt pattern that ensures clarity, modularity, reproducibility, and scalability.  
 Each layer has a single responsibility and transforms data in a controlled, well‑documented manner.
 
@@ -227,9 +227,48 @@ dbt manages dependencies using `ref()` and `source()`:
 
 This creates a fully traceable DAG visible in dbt docs.
 
+## 6.☁️ MotherDuck Integration (New)
+The warehouse now uses MotherDuck as its storage backend.
+
+## 6.1 Migration Summary
+Local DuckDB file (warehouse.duckdb) uploaded to MotherDuck
+
+Authentication via MotherDuck service token
+
+Cloud database created using:
+
+```CREATE DATABASE md:my_cloud_warehouse FROM current_database();
+```
+
+## 6.2 Updated dbt Profile
+
+```yaml
+your_project_profile_name:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: 'md:my_cloud_warehouse'
+      token: 'YOUR_TOKEN_HERE'
+```
+
+## 6.3 Benefits
+
+- No local storage required
+
+- Cloud‑hosted DuckDB
+
+- Same SQL syntax
+
+- Same dbt adapter
+
+- Faster development workflow
+
+- Easy portability across machines
+
 ---
 
-## 6. ⚙️ Benefits of This Architecture
+## 7. ⚙️ Benefits of This Architecture
 
 - **Modular** — each model is independent and reusable  
 - **Extensible** — new fraud features can be added easily  
@@ -241,7 +280,7 @@ This creates a fully traceable DAG visible in dbt docs.
 
 ---
 
-## 7. 🏁 Summary
+## 8. 🏁 Summary
 
 This architecture transforms raw transactional data into a rich, feature‑engineered fraud analytics warehouse.  
 It is:
